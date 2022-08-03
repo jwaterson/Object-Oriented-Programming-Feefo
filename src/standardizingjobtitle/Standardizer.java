@@ -8,5 +8,10 @@ package standardizingjobtitle;
  * @author  Josh Waterson
  */
 public abstract class Standardizer {
+
+    /**
+     * @param s     input String to be standardized
+     * @return      standardized String
+     */
     public abstract String standardize(String s);
 }
