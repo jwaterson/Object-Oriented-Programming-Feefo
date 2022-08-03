@@ -1,7 +1,8 @@
 package standardizingjobtitle;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
+import java.util.List;
 
 
 /**
@@ -15,14 +16,22 @@ public class JobStandardizer extends Standardizer {
     /**
      * Array of standardized job titles
      */
-    private final String[] jts = new String[]{
+    private final String[] standardizedJts = new String[]{
                     "Architect",
                     "Software engineer",
                     "Quantity surveyor",
                     "Accountant"};
 
     /**
-     * 
+     * Compares passed String with standardized job titles
+     * and outputs the standardized job title that most closely
+     * matches the passed input.<br><br>
+     *
+     * Similarity is determined by implementing an approximate string
+     * matching technique where pairs of Strings are compared by pairs
+     * of characters. If a pair occurs in both Strings, a match is
+     * counted. The standardized String with the highest match count
+     * is deemed to be the closest String and is therefore returned.
      * 
      * @param jt    inputted job title
      * @return      the standardized job title that best matches 
@@ -30,20 +39,24 @@ public class JobStandardizer extends Standardizer {
      */
     @Override
     public String standardize(String jt) {
-        String[][] treatedJts = Arrays.stream(jts)
-                .map(String::toLowerCase)
+        double highest = 0.0;
+        int index = 0;
+        String[][] pairifiedJts = Arrays.stream(standardizedJts)
                 .map(this::pairify)
                 .toArray(String[][]::new);
 
-        String[] pairs = pairify(jt);
+        String[] pairifiedInput = pairify(jt);
 
-
-        System.out.println(Arrays.toString(pairs));
-        return "";
+        for (int i = 0; i < pairifiedJts.length; i++) {
+            if (highest != (highest = Math.max(highest, getSimilarity(pairifiedInput, pairifiedJts[i])))) {
+                index = i;
+            }
+        }
+        return standardizedJts[index];
     }
 
     public String[] pairify(String jt) {
-        String[] words = jt.toLowerCase(Locale.ROOT).split(" ");
+        String[] words = jt.toLowerCase().split(" ");
         String[][] arr = Arrays.stream(words)
                 .map(s -> s.split(""))
                 .toArray(String[][]::new);
@@ -66,12 +79,23 @@ public class JobStandardizer extends Standardizer {
                 .toArray(String[]::new);
     }
 
-    private double getSimilarity(String[] input, String[] standardizedTitle) {
-        return 0.0;
+    private double getSimilarity(String[] input, String[] standardizedJt) {
+        int matches = 0;
+        String[] shortest = input.length > standardizedJt.length ? input : standardizedJt;
+        String[] other = input == shortest ? standardizedJt : input;
+        List<String> pairs = new ArrayList<>(Arrays.asList(shortest));
+
+        for (int i = other.length - 1; i >= 0; i--) {
+            for (String s : pairs) {
+                if (s.equals(other[i])) {
+                    pairs.remove(s);
+                    matches++;
+                    break;
+                }
+            }
+        }
+
+        return (double) matches / (input.length + standardizedJt.length);
     }
 
-    public static void main(String[] args) {
-        JobStandardizer js = new JobStandardizer();
-        js.standardize("Heap Memory");
-    }
 }
