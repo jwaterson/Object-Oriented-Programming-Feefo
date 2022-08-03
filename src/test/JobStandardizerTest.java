@@ -4,12 +4,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import standardizingjobtitle.JobStandardizer;
+import standardizingjobtitle.Standardizer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class JobStandardizerTest {
 
-    JobStandardizer s;
+    Standardizer s;
 
     @BeforeEach
     void setUp() {
@@ -30,4 +31,5 @@ class JobStandardizerTest {
                 () -> assertEquals("Accountant", s.standardize("Chief Accountant"))
         );
     }
+
 }
