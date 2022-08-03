@@ -22,12 +22,25 @@ class JobStandardizerTest {
     }
 
     @Test
-    void sampleCodeTest() {
+    void sampleTest() {
         assertAll(
                 () -> assertEquals("Software engineer", s.standardize("Java engineer")),
                 () -> assertEquals("Software engineer", s.standardize("C# engineer")),
                 () -> assertEquals("Accountant", s.standardize("Accountant")),
                 () -> assertEquals("Accountant", s.standardize("Chief Accountant"))
+        );
+    }
+
+    @Test
+    void standardizeTest() {
+        assertAll(
+                () -> assertEquals("Software engineer", s.standardize("Something fun")),
+                () -> assertEquals("Accountant", s.standardize("Anything but accountancy")),
+                () -> assertEquals("Quantity surveyor", s.standardize("Quantaty sirveyer")),
+                () -> assertEquals("Architect", s.standardize("Astronaut")),
+                () -> assertEquals("Software engineer", s.standardize("SOFTWEAR")),
+                () -> assertEquals("Architect", s.standardize("AAAAArchtiect")),
+                () -> assertEquals("Quantity surveyor", s.standardize("234234234234"))
         );
     }
 
@@ -42,7 +55,22 @@ class JobStandardizerTest {
                 () -> assertArrayEquals(new String[]{"c", "de", "ev"},
                         s.pairify("C dev")),
                 () -> assertArrayEquals(new String[]{"c#", "de", "ev"},
-                        s.pairify("C# dev"))
+                        s.pairify("C# dev")),
+                () -> assertArrayEquals(new String[]{"up", "pp", "pe", "er", "ca", "as", "se"},
+                        s.pairify("UP PP PE ER CA AS SE")),
+
+                //edge cases
+                () -> assertThrows(IllegalArgumentException.class,
+                        () -> s.pairify("")),
+                () -> assertThrows(IllegalArgumentException.class,
+                        () -> s.pairify(null)),
+                () -> assertArrayEquals(new String[]{"?", "12", "r2", "23", "3r", "2", "__", "__"},
+                        s.pairify("?          12  r23r     2 ___")),
+                () -> assertArrayEquals(new String[]{"\""},
+                        s.pairify("\"")),
+                () -> assertArrayEquals(new String[]{"'", "or", "1", "=", "1;"},
+                        s.pairify("' OR 1 = 1;")) //should obviously be handled more robustly
+
         );
     }
 

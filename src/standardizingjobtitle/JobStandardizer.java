@@ -1,17 +1,14 @@
 package standardizingjobtitle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 /**
- * A subclass of {@link Standardizer Standardizer} whose standardize method
- * operates on a given job title
+ * A class whose standardize method operates on a given job title
  *
  * @author  Josh Waterson
  */
-public class JobStandardizer extends Standardizer {
+public class JobStandardizer {
     
     /**
      * Array of standardized job titles
@@ -21,6 +18,10 @@ public class JobStandardizer extends Standardizer {
                     "Software engineer",
                     "Quantity surveyor",
                     "Accountant"};
+
+    String[][] pairifiedJts = Arrays.stream(standardizedJts)
+            .map(this::pairify)
+            .toArray(String[][]::new);
 
     /**
      * Compares passed String with standardized job titles
@@ -37,13 +38,12 @@ public class JobStandardizer extends Standardizer {
      * @return      the standardized job title that best matches 
      *              the 'ideal' standardized job titles
      */
-    @Override
     public String standardize(String jt) {
+        if (Objects.isNull(jt) || jt.length() == 0) {
+            throw new IllegalArgumentException();
+        }
         double highest = 0.0;
-        int index = 0;
-        String[][] pairifiedJts = Arrays.stream(standardizedJts)
-                .map(this::pairify)
-                .toArray(String[][]::new);
+        int index = -1;
 
         String[] pairifiedInput = pairify(jt);
 
@@ -52,11 +52,21 @@ public class JobStandardizer extends Standardizer {
                 index = i;
             }
         }
+        if (index == -1) { //input matched none of the standardized job titles
+            index = 3; // TODO: replace this with a secondary arbitrary matcher (i.e. number of matching chars)
+        }
         return standardizedJts[index];
     }
 
+    /**
+     * @param jt    inputted job title
+     * @return      pairified String (stored in a String array)
+     */
     public String[] pairify(String jt) {
-        String[] words = jt.toLowerCase().split(" ");
+        if (Objects.isNull(jt) || jt.length() == 0) {
+            throw new IllegalArgumentException();
+        }
+        String[] words = jt.toLowerCase().split("\\s+");
         String[][] arr = Arrays.stream(words)
                 .map(s -> s.split(""))
                 .toArray(String[][]::new);
@@ -79,6 +89,11 @@ public class JobStandardizer extends Standardizer {
                 .toArray(String[]::new);
     }
 
+    /**
+     * @param input             pairified input
+     * @param standardizedJt    pairified standardized job title
+     * @return                  similarity score
+     */
     private double getSimilarity(String[] input, String[] standardizedJt) {
         int matches = 0;
         String[] shortest = input.length > standardizedJt.length ? input : standardizedJt;
