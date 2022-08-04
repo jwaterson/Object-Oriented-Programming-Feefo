@@ -13,14 +13,14 @@ public class JobStandardizer {
     /**
      * Array of standardized job titles
      */
-    private final String[] standardizedJts = new String[]{
+    private static final String[] STANDARDIZED_JTS = new String[]{
                     "Architect",
                     "Software engineer",
                     "Quantity surveyor",
                     "Accountant"};
 
-    String[][] pairifiedJts = Arrays.stream(standardizedJts)
-            .map(this::pairify)
+    String[][] pairifiedJts = Arrays.stream(STANDARDIZED_JTS)
+            .map(Pairifier::pairify)
             .toArray(String[][]::new);
 
     /**
@@ -32,7 +32,9 @@ public class JobStandardizer {
      * matching technique where pairs of Strings are compared by pairs
      * of characters. If a pair occurs in both Strings, a match is
      * counted. The standardized String with the highest match count
-     * is deemed to be the closest String and is therefore returned.
+     * is deemed to be the closest String and is therefore returned.<br><br>
+     *
+     * If no match is found, similarity is determined
      * 
      * @param jt    inputted job title
      * @return      the standardized job title that best matches 
@@ -45,7 +47,7 @@ public class JobStandardizer {
         double highest = 0.0;
         int index = -1;
 
-        String[] pairifiedInput = pairify(jt);
+        String[] pairifiedInput = Pairifier.pairify(jt);
 
         for (int i = 0; i < pairifiedJts.length; i++) {
             if (highest != (highest = Math.max(highest, getSimilarity(pairifiedInput, pairifiedJts[i])))) {
@@ -55,38 +57,7 @@ public class JobStandardizer {
         if (index == -1) { //input matched none of the standardized job titles
             index = 3; // TODO: replace this with a secondary arbitrary matcher (i.e. number of matching chars)
         }
-        return standardizedJts[index];
-    }
-
-    /**
-     * @param jt    inputted job title
-     * @return      pairified String (stored in a String array)
-     */
-    public String[] pairify(String jt) {
-        if (Objects.isNull(jt) || jt.length() == 0) {
-            throw new IllegalArgumentException();
-        }
-        String[] words = jt.toLowerCase().split("\\s+");
-        String[][] arr = Arrays.stream(words)
-                .map(s -> s.split(""))
-                .toArray(String[][]::new);
-
-        String[][] pairArray = new String[words.length][];
-
-        for (int i = 0; i < arr.length; i++) {
-            pairArray[i] = new String[words[i].length() - 1];
-            if (words[i].length() == 1) {
-                pairArray[i] = arr[i];
-                continue;
-            }
-            for (int j = 0; j < arr[i].length - 1; j++) {
-                pairArray[i][j] = arr[i][j] + arr[i][j + 1];
-            }
-        }
-
-        return Arrays.stream(pairArray)
-                .flatMap(Arrays::stream)
-                .toArray(String[]::new);
+        return STANDARDIZED_JTS[index];
     }
 
     /**

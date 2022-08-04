@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import standardizingjobtitle.JobStandardizer;
+import standardizingjobtitle.Pairifier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,42 +37,33 @@ class JobStandardizerTest {
         assertAll(
                 () -> assertEquals("Software engineer", s.standardize("Something fun")),
                 () -> assertEquals("Accountant", s.standardize("Anything but accountancy")),
-                () -> assertEquals("Quantity surveyor", s.standardize("Quantaty sirveyer")),
-                () -> assertEquals("Architect", s.standardize("Astronaut")),
+                () -> assertEquals("Quantity surveyor", s.standardize("Quantatty sirveyer")),
                 () -> assertEquals("Software engineer", s.standardize("SOFTWEAR")),
-                () -> assertEquals("Architect", s.standardize("AAAAArchtiect")),
-                () -> assertEquals("Quantity surveyor", s.standardize("234234234234"))
+                () -> assertEquals("Architect", s.standardize("AArchtiect")),
+
+                // contended
+
+                /*
+                 Accountant -
+                 because more pairs match
+                */
+                () -> assertEquals("Accountant", s.standardize("Accountant Engineer")),
+                /*
+                 Software engineer -
+                 both "Software engineer" and "Quantity surveyor" have same number of matches
+                 however, "Quantity surveyor" matches more characters.
+                */
+                () -> assertEquals("Software engineer", s.standardize("Quantity Engineer")),
+                () -> assertEquals("Accountant", s.standardize("Accountant Engineer")),
+                () -> assertEquals("Accountant", s.standardize("Accountant Engineer")),
+
+                // no matches
+
+                () -> assertEquals("Accountant", s.standardize("Astronaut")),
+                () -> assertEquals("Accountant", s.standardize("234234234234")),
+                () -> assertEquals("Accountant", s.standardize("234234234234"))
         );
     }
 
-    @Test
-    void pairifyTest() {
-        //temporarily change pairify access modifier to public for testing
-        assertAll(
-                () -> assertArrayEquals(new String[]{"he", "ea", "ap", "me", "em", "mo", "or", "ry"},
-                        s.pairify("heap memory")),
-                () -> assertArrayEquals(new String[]{"l", "o", "n", "e", "l", "y", "p", "a", "i", "r", "s"},
-                        s.pairify("l o n e l y p a i r s")),
-                () -> assertArrayEquals(new String[]{"c", "de", "ev"},
-                        s.pairify("C dev")),
-                () -> assertArrayEquals(new String[]{"c#", "de", "ev"},
-                        s.pairify("C# dev")),
-                () -> assertArrayEquals(new String[]{"up", "pp", "pe", "er", "ca", "as", "se"},
-                        s.pairify("UP PP PE ER CA AS SE")),
-
-                //edge cases
-                () -> assertThrows(IllegalArgumentException.class,
-                        () -> s.pairify("")),
-                () -> assertThrows(IllegalArgumentException.class,
-                        () -> s.pairify(null)),
-                () -> assertArrayEquals(new String[]{"?", "12", "r2", "23", "3r", "2", "__", "__"},
-                        s.pairify("?          12  r23r     2 ___")),
-                () -> assertArrayEquals(new String[]{"\""},
-                        s.pairify("\"")),
-                () -> assertArrayEquals(new String[]{"'", "or", "1", "=", "1;"},
-                        s.pairify("' OR 1 = 1;")) //should obviously be handled more robustly
-
-        );
-    }
 
 }
