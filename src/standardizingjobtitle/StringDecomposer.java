@@ -5,21 +5,37 @@ import java.util.Objects;
 
 
 /**
- * A utility class whose {@code pairify} method transforms an inputted
- * String into its 'pairified' equivalent, composed of each consecutive
- * pair of characters in the String.
+ * A utility class whose methods transform an inputted String
+ * into its decomposed equivalent.
  *
  * @author  Josh Waterson
  */
-public final class Pairifier {
+public final class StringDecomposer {
 
-    private Pairifier(){}
+    private StringDecomposer(){}
+
+
+    /**
+     * Transforms an inputted String into its 'individualised'
+     * equivalent, composed of each individual character (in String
+     * form).
+     *
+     * @param str   inputted String
+     * @return      individualised String (stored in a String array)
+     */
+    public static String[] individualise(String str) {
+        if (Objects.isNull(str) || str.length() == 0) {
+            throw new IllegalArgumentException();
+        }
+        return str.toLowerCase().replaceAll("\\s+", "").split("");
+
+    }
 
     /**
      * Transforms an inputted String into its 'pairified' equivalent,
      * composed of each consecutive pair of characters in the String.
      *
-     * @param str    inputted job title
+     * @param str   inputted String
      * @return      pairified String (stored in a String array)
      */
     public static String[] pairify(String str) {
@@ -48,4 +64,5 @@ public final class Pairifier {
                 .flatMap(Arrays::stream)
                 .toArray(String[]::new);
     }
+
 }

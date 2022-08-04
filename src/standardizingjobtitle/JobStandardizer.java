@@ -1,5 +1,7 @@
 package standardizingjobtitle;
 
+import exceptions.NoMatchException;
+
 import java.util.*;
 
 
@@ -19,9 +21,26 @@ public class JobStandardizer {
                     "Quantity surveyor",
                     "Accountant"};
 
-    String[][] pairifiedJts = Arrays.stream(STANDARDIZED_JTS)
-            .map(Pairifier::pairify)
-            .toArray(String[][]::new);
+    /**
+     * Standardized job titles stored in pairified form
+     */
+    String[][] pairifiedJts;
+
+    /**
+     * Standardized job titles stored in individualised form
+     */
+    String[][] individualLettersJts;
+
+    public JobStandardizer() {
+         pairifiedJts = Arrays.stream(STANDARDIZED_JTS)
+                .map(StringDecomposer::pairify)
+                .toArray(String[][]::new);
+        individualLettersJts = Arrays.stream(STANDARDIZED_JTS)
+                .map(s -> s.replaceAll("\\s", ""))
+                .map(s -> s.split(""))
+                .toArray(String[][]::new);
+
+    }
 
     /**
      * Compares passed String with standardized job titles
@@ -47,7 +66,7 @@ public class JobStandardizer {
         double highest = 0.0;
         int index = -1;
 
-        String[] pairifiedInput = Pairifier.pairify(jt);
+        String[] pairifiedInput = StringDecomposer.pairify(jt);
 
         for (int i = 0; i < pairifiedJts.length; i++) {
             if (highest != (highest = Math.max(highest, getSimilarity(pairifiedInput, pairifiedJts[i])))) {
@@ -55,12 +74,26 @@ public class JobStandardizer {
             }
         }
         if (index == -1) { //input matched none of the standardized job titles
-            index = 3; // TODO: replace this with a secondary arbitrary matcher (i.e. number of matching chars)
+            String[] individualLettersInput = StringDecomposer.individualise(jt);
+            for (int i = 0; i < individualLettersJts.length; i++) {
+                if (highest != (highest = Math.max(highest,
+                        getSimilarity(individualLettersInput, individualLettersJts[i])))) {
+                    index = i;
+                }
+            }
+
+            if (index == -1) {
+                throw new NoMatchException("Input cannot be matched to a standardized job title");
+            }
+
         }
         return STANDARDIZED_JTS[index];
     }
 
     /**
+     * Helper method that returns a similarity score based on the
+     * number of matched elements in each of the two passed arrays.
+     *
      * @param input             pairified input
      * @param standardizedJt    pairified standardized job title
      * @return                  similarity score
