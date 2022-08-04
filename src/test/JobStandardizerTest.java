@@ -24,16 +24,6 @@ class JobStandardizerTest {
     }
 
     @Test
-    void sampleTest() {
-        assertAll(
-                () -> assertEquals("Software engineer", s.standardize("Java engineer")),
-                () -> assertEquals("Software engineer", s.standardize("C# engineer")),
-                () -> assertEquals("Accountant", s.standardize("Accountant")),
-                () -> assertEquals("Accountant", s.standardize("Chief Accountant"))
-        );
-    }
-
-    @Test
     void standardizeTest() {
         assertAll(
                 /*

@@ -117,4 +117,19 @@ public class JobStandardizer {
         return (double) matches / (input.length + standardizedJt.length);
     }
 
+    public static void main(String[] args) {
+        String jt = "Java engineer";
+        JobStandardizer s = new JobStandardizer();
+        String standardizedTitle = s.standardize(jt);
+        System.out.println(standardizedTitle);
+
+        jt = "C# engineer";
+        standardizedTitle = s.standardize(jt);
+        System.out.println(standardizedTitle);
+
+        jt = "Chief Accountant";
+        standardizedTitle = s.standardize(jt);
+        System.out.println(standardizedTitle);
+    }
+
 }
