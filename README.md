@@ -2,11 +2,8 @@
 
 ### Standardizing Job Titles process ###
 
-Provided with a list of ideal (standardized) job titles, create a class that implements a process that returns the best match when provided with an
-input string.
-
-Concretely, given a standardized job titles list of "Architect", "Software engineer", "Quantity surveyor", and "Accountant", write a process that
-returns the standardized result for the input
+Given a standardized job titles list of "Architect", "Software engineer", "Quantity surveyor", and "Accountant", write a process that
+returns the standardized result for the input based upon which of the titles best matches it.
 
 | input              |     | standardized        |
 |--------------------|-----|---------------------|
@@ -16,3 +13,6 @@ returns the standardized result for the input
 | "Chief Accountant" | \>  | "Accountant"        |
 
 ### Number Statistics ###
+
+Calculates the (1) median, (2) mean, (3) mode, and (4)
+range for a given array of integers (of unknown length) and outputs these four values to the console.
