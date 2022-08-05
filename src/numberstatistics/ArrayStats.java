@@ -1,9 +1,6 @@
 package numberstatistics;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -17,10 +14,13 @@ public class ArrayStats {
      * @param arr input array
      */
     public void getStats(int[] arr) {
+        if (arr.length == 0) {
+            throw new IllegalArgumentException("Cannot get stats for empty array");
+        }
         double median = getMedian(arr);
         double mean = getMean(arr);
         int[] mode = getMode(arr);
-        int range = getRange(arr);
+        long range = getRange(arr);
 
         System.out.printf("Median: %s\nMean: %s\nMode: %s\nRange: %d\n",
                 formatDouble(median),
@@ -38,9 +38,10 @@ public class ArrayStats {
      * @param arr   input array
      * @return      difference between max and min elements in the array
      */
-    private int getRange(int[] arr) {
-        return Arrays.stream(arr).max().orElse(0)
-                - Arrays.stream(arr).min().orElse(0);
+    private long getRange(int[] arr) {
+        long max = Arrays.stream(arr).max().orElse(0);
+        long min = Arrays.stream(arr).min().orElse(0);
+        return max - min;
     }
 
     /**
@@ -143,5 +144,23 @@ public class ArrayStats {
      */
     private String formatDouble(double d) {
         return String.format(d % 1.0 != 0 ? "%s" : "%.0f", d);
+    }
+
+    private static int[] generateSomeHugeArray() {
+        // int[] arr = new int[1000];
+        int[] arr = new int[new Random().nextInt(1, 1001)]; // limited to 1000 for example purposes only
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = new Random().nextInt() * (i % 2 == 0 ? 1 : -1);
+            // arr[i] = new Random().nextInt(-1, 2) ;
+        }
+        return arr;
+    }
+
+    public static void main(String[] args) {
+        int[] myBigArray = generateSomeHugeArray();
+
+        ArrayStats arrayManipulator = new ArrayStats();
+        arrayManipulator.getStats(myBigArray);
+
     }
 }
