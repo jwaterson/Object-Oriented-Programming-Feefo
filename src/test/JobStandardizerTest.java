@@ -41,14 +41,14 @@ class JobStandardizerTest {
 
                 Contended ---------------------------------------------------------------------------------
 
-                 Returned:  Accountant
-                 Reason:    input contains words common to two standardized job titles, however
+                Returned:  Accountant
+                Reason:    input contains words common to two standardized job titles, however
                             "Accountant" is returned because more pairs match.
                 */
                 () -> assertEquals("Accountant", s.standardize("Accountant Engineer")),
                 /*
-                 Returned:  Software engineer
-                 Reason:    both "Software engineer" and "Quantity surveyor" have same number of
+                Returned:  Software engineer
+                Reason:    both "Software engineer" and "Quantity surveyor" have same number of
                             matches however, "Quantity surveyor" matches more characters.
                 */
                 () -> assertEquals("Software engineer", s.standardize("Quantity Engineer")),
@@ -62,7 +62,9 @@ class JobStandardizerTest {
                             standardized job title.
                  */
                 () -> assertEquals("Quantity surveyor", s.standardize("Astronaut")),
+
                 /*
+
                 Returned:   n/a
                 Reason:     the inputted String bears no recognised similarity to any of the
                             standardized job titles.

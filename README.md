@@ -2,8 +2,7 @@
 
 ### Standardizing Job Titles process ###
 
-Given a standardized job titles list of "Architect", "Software engineer", "Quantity surveyor", and "Accountant", write a process that
-returns the standardized result for the input based upon which of the titles best matches it.
+Given a standardized job titles list of "Architect", "Software engineer", "Quantity surveyor", and "Accountant", returns the standardized result for the input based upon which of the titles best matches it.
 
 | input              |     | standardized        |
 |--------------------|-----|---------------------|

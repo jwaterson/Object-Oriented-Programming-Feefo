@@ -18,12 +18,13 @@ class ArrayStatsTest {
     private final PrintStream ogOutStream = System.out;
     private ByteArrayOutputStream newOutStream;
     private ArrayStats arrayStats;
-    private int[] arr;
+    private int[] basicArr;
 
     @BeforeEach
     void setUp() {
         // an array's length cannot exceed Integer.MAX_VALUE
-        arr = IntStream.generate(() -> new Random().nextInt()).limit(Integer.MAX_VALUE).toArray();
+//        arr = IntStream.generate(() -> new Random().nextInt()).limit(Integer.MAX_VALUE).toArray();
+        basicArr = IntStream.range(0, 11).toArray();
         newOutStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(newOutStream));
         arrayStats = new ArrayStats();
@@ -31,16 +32,17 @@ class ArrayStatsTest {
 
     @AfterEach
     void tearDown() {
-        arr = null;
+        basicArr = null;
         System.setOut(ogOutStream);
         newOutStream = null;
         arrayStats = null;
     }
 
     @Test
-    void getStatsTest() {
-        arrayStats.getStats(arr);
-        assertEquals("Median: \nMean: \nMode: \nRange: \n", newOutStream.toString());
+    void getStatsBasicInputTest() {
+        arrayStats.getStats(basicArr);
+        assertEquals("Median: 1\nMean: 5\nMode: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\nRange: 10\n",
+                newOutStream.toString());
     }
 
 
