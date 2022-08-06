@@ -73,13 +73,13 @@ public class ArrayStats {
     private double getMedian(int[] arr) {
         int first = 0;
         int last = arr.length - 1;
-        int index = arr.length / 2;
+        int mid = arr.length / 2;
         while (first < last) {
-            int pivot = getPartition(arr, first, last);
-            if (pivot < index) {
+            int pivot = getPartitioned(arr, first, last);
+            if (pivot < mid) {
                 first = pivot + 1;
             }
-            else if (pivot > index) {
+            else if (pivot > mid) {
                 last = pivot - 1;
             }
             else {
@@ -92,12 +92,15 @@ public class ArrayStats {
     }
 
     /**
+     * sorts given int array by the natural order of its
+     * elements by partitioning and returns a pivot value.
+     *
      * @param arr   input array
      * @param first first element in partitioned array
      * @param last  last element in partitioned array
-     * @return      array element acting as partition
+     * @return      pivot value
      */
-    private int getPartition(int[] arr, int first, int last) {
+    private int getPartitioned(int[] arr, int first, int last) {
         int pivot = first;
         int temp;
         while (first <= last) {
@@ -147,11 +150,11 @@ public class ArrayStats {
     }
 
     private static int[] generateSomeHugeArray() {
-        // int[] arr = new int[1000];
-        int[] arr = new int[new Random().nextInt(1, 1001)]; // limited to 1000 for example purposes only
+        int[] arr = new int[5];
+        int[] arr1 = new int[new Random().nextInt(1, 1001)]; // limited to 1000 for example purposes only
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = new Random().nextInt() * (i % 2 == 0 ? 1 : -1);
-            // arr[i] = new Random().nextInt(-1, 2) ;
+            arr1[i] = new Random().nextInt() * (i % 2 == 0 ? 1 : -1);
+            arr[i] = new Random().nextInt(5, 10);
         }
         return arr;
     }
