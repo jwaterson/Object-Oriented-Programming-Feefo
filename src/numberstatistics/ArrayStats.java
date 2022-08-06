@@ -149,6 +149,11 @@ public class ArrayStats {
         return String.format(d % 1.0 != 0 ? "%s" : "%.0f", d);
     }
 
+    /**
+     * Helper method for use in demonstrating sample code in main
+     *
+     * @return      potentially large array
+     */
     private static int[] generateSomeHugeArray() {
         // int[] arr = new int[5];
         int[] arr1 = new int[new Random().nextInt(1, 1001)]; // limited to 1000 for example purposes only

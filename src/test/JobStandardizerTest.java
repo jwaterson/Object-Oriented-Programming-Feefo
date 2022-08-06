@@ -49,7 +49,7 @@ class JobStandardizerTest {
                 /*
                 Returned:  Software engineer
                 Reason:    both "Software engineer" and "Quantity surveyor" have same number of
-                            matches however, "Quantity surveyor" matches more characters.
+                           pair matches however, "Quantity surveyor" matches more characters.
                 */
                 () -> assertEquals("Software engineer", s.standardize("Quantity Engineer")),
 
