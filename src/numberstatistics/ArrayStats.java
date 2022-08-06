@@ -150,13 +150,13 @@ public class ArrayStats {
     }
 
     private static int[] generateSomeHugeArray() {
-        int[] arr = new int[5];
+        // int[] arr = new int[5];
         int[] arr1 = new int[new Random().nextInt(1, 1001)]; // limited to 1000 for example purposes only
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr1.length; i++) {
             arr1[i] = new Random().nextInt() * (i % 2 == 0 ? 1 : -1);
-            arr[i] = new Random().nextInt(5, 10);
+            // arr[i] = new Random().nextInt(5, 10);
         }
-        return arr;
+        return arr1;
     }
 
     public static void main(String[] args) {
