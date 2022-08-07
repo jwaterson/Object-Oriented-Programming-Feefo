@@ -14,8 +14,8 @@ public class ArrayStats {
      * @param arr input array
      */
     public void getStats(int[] arr) {
-        if (arr.length == 0) {
-            throw new IllegalArgumentException("Cannot get stats for empty array");
+        if (Objects.isNull(arr) || arr.length == 0) {
+            throw new IllegalArgumentException("Cannot get stats for empty or null array");
         }
         double median = getMedian(arr);
         double mean = getMean(arr);
@@ -33,14 +33,18 @@ public class ArrayStats {
 
     /**
      * gets statistical range of input array (min element subtracted
-     * from max element)
+     * from max element). Note, while this implementation uses IntStream's
+     * max and min methods (both of which return OptionalInts) the stream
+     * will never be empty - empty and null input arrays are handled before
+     * this method is called by getStats, so the orElse() default is included
+     * purely in order that the code compiles.
      *
      * @param arr   input array
      * @return      difference between max and min elements in the array
      */
     private long getRange(int[] arr) {
-        long max = Arrays.stream(arr).max().orElse(0);
-        long min = Arrays.stream(arr).min().orElse(0);
+        long max = IntStream.of(arr).max().orElse(0);
+        long min = IntStream.of(arr).min().orElse(0);
         return max - min;
     }
 
@@ -156,7 +160,7 @@ public class ArrayStats {
      */
     private static int[] generateSomeHugeArray() {
         // int[] arr = new int[5];
-        int[] arr1 = new int[new Random().nextInt(1, 1001)]; // limited to 1000 for example purposes only
+        int[] arr1 = new int[100_000]; // limited to 100,000 for example purposes only
         for (int i = 0; i < arr1.length; i++) {
             arr1[i] = new Random().nextInt() * (i % 2 == 0 ? 1 : -1);
             // arr[i] = new Random().nextInt(5, 10);
@@ -165,8 +169,8 @@ public class ArrayStats {
     }
 
     public static void main(String[] args) {
-        int[] myBigArray = generateSomeHugeArray();
-
+        int[] myBigArray = generateSomeHugeArray(); // limited to 100,000 for example purposes only
+        System.out.println(Arrays.toString(myBigArray));
         ArrayStats arrayManipulator = new ArrayStats();
         arrayManipulator.getStats(myBigArray);
 
