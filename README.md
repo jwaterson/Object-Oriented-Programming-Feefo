@@ -2,7 +2,7 @@
 
 ### Standardizing Job Titles process ###
 
-Given a standardized job titles list of "Architect", "Software engineer", "Quantity surveyor", and "Accountant", returns the standardized result for the input based upon which of the titles best matches it.
+Given a String input, finds which element of a list of standardized job titles ("Architect", "Software engineer", "Quantity surveyor", and "Accountant") best matches the input and returns the best match from the list of standardized job titles.
 
 | input              |     | standardized        |
 |--------------------|-----|---------------------|
@@ -14,4 +14,4 @@ Given a standardized job titles list of "Architect", "Software engineer", "Quant
 ### Number Statistics ###
 
 Calculates the (1) median, (2) mean, (3) mode, and (4)
-range for a given array of integers (of unknown length) and outputs these four values to the console. Assume arrays may be very large.
+range for a given array of integers (of unknown length) and outputs these four values to the console. Assumes that arrays may be very large.
