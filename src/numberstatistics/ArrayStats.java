@@ -160,7 +160,7 @@ public class ArrayStats {
      */
     private static int[] generateSomeHugeArray() {
         // int[] arr = new int[5];
-        int[] arr1 = new int[100_000]; // limited to 100,000 for example purposes only
+        int[] arr1 = new int[1000]; // limited to 1000 for example purposes only
         for (int i = 0; i < arr1.length; i++) {
             arr1[i] = new Random().nextInt() * (i % 2 == 0 ? 1 : -1);
             // arr[i] = new Random().nextInt(5, 10);
@@ -169,7 +169,7 @@ public class ArrayStats {
     }
 
     public static void main(String[] args) {
-        int[] myBigArray = generateSomeHugeArray(); // limited to 100,000 for example purposes only
+        int[] myBigArray = generateSomeHugeArray(); // limited to 1000 for example purposes only
         System.out.println(Arrays.toString(myBigArray));
         ArrayStats arrayManipulator = new ArrayStats();
         arrayManipulator.getStats(myBigArray);
