@@ -97,7 +97,7 @@ public class ArrayStats {
             }
         }
         return arr.length % 2 != 0 ?
-                arr[first] : (arr[first - 1] + arr[first]) / 2.0;
+                arr[first] : ((long) arr[first - 1] + (long) arr[first]) / 2.0;
     }
 
     /**
@@ -164,9 +164,10 @@ public class ArrayStats {
      * @return      potentially large array
      */
     private static int[] generateSomeHugeArray() {
-        int[] arr1 = new int[1000]; // limited to 1000 for convenience only
+        int[] arr1 = new int[1000]; // limited to 10000 for convenience only
         for (int i = 0; i < arr1.length; i++) {
-            arr1[i] = new Random().nextInt() * (i % 2 == 0 ? 1 : -1);
+//            arr1[i] = new Random().nextInt() * (i % 2 == 0 ? 1 : -1);
+            arr1[i] = new Random().nextInt(-1, 2);
         }
         return arr1;
     }
