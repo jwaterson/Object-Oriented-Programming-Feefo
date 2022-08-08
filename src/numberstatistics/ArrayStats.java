@@ -5,6 +5,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * A class whose methods provide statistics about given arrays
+ *
+ * @author Josh Waterson
+ */
 public class ArrayStats {
 
     /**
@@ -32,7 +37,7 @@ public class ArrayStats {
     }
 
     /**
-     * gets statistical range of input array (min element subtracted
+     * gets the statistical range of input array (min element subtracted
      * from max element). Note, while this implementation uses IntStream's
      * max and min methods (both of which return OptionalInts) the stream
      * will never be empty - empty and null input arrays are handled before
@@ -49,7 +54,7 @@ public class ArrayStats {
     }
 
     /**
-     * gets mode of input array elements.
+     * gets the mode of input array elements.
      *
      * @param arr   input array
      * @return      most frequently occurring element(s) in the input array
@@ -68,7 +73,7 @@ public class ArrayStats {
     }
 
     /**
-     * gets median of input array elements using an implementation of
+     * gets the median of input array elements using an implementation of
      * quickselect algorithm.
      *
      * @param arr   input array
@@ -128,7 +133,7 @@ public class ArrayStats {
     }
 
     /**
-     * iteratively gets mean of input array elements.
+     * iteratively gets the mean of input array elements.
      *
      * @param arr   input array
      * @return      mean of the input array elements
@@ -144,7 +149,7 @@ public class ArrayStats {
     }
 
     /**
-     * Helper method to output tidied representation of double value.
+     * Helper method to output formatted representation of double value.
      *
      * @param d     double to be formatted
      * @return      formatted String of input double value
@@ -159,17 +164,15 @@ public class ArrayStats {
      * @return      potentially large array
      */
     private static int[] generateSomeHugeArray() {
-        // int[] arr = new int[5];
-        int[] arr1 = new int[1000]; // limited to 1000 for example purposes only
+        int[] arr1 = new int[1000]; // limited to 1000 for convenience only
         for (int i = 0; i < arr1.length; i++) {
             arr1[i] = new Random().nextInt() * (i % 2 == 0 ? 1 : -1);
-            // arr[i] = new Random().nextInt(5, 10);
         }
         return arr1;
     }
 
     public static void main(String[] args) {
-        int[] myBigArray = generateSomeHugeArray(); // limited to 1000 for example purposes only
+        int[] myBigArray = generateSomeHugeArray();
         System.out.println(Arrays.toString(myBigArray));
         ArrayStats arrayManipulator = new ArrayStats();
         arrayManipulator.getStats(myBigArray);
